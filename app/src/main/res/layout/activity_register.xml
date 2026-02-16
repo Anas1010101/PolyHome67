@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E7F1F9">
+
+    <LinearLayout
+        android:id="@+id/registerRoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Créer un compte"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#1A1A1A"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- LOGIN -->
+
+        <!-- PASSWORD -->
+        <EditText
+            android:id="@+id/etRegisterLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Login"
+            android:inputType="textEmailAddress"
+            android:backgroundTint="#B6D8F7"
+            android:textColor="#1A1A1A"
+            android:textColorHint="#6B6B6B" />
+
+        <EditText
+            android:id="@+id/etRegisterPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mot de passe"
+            android:inputType="textPassword"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#B6D8F7"
+            android:textColor="#1A1A1A"
+            android:textColorHint="#6B6B6B" />
+
+        <!-- CONFIRM PASSWORD -->
+        <EditText
+            android:id="@+id/etRegisterConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirmer le mot de passe"
+            android:inputType="textPassword"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#B6D8F7"
+            android:textColor="#1A1A1A"
+            android:textColorHint="#6B6B6B" />
+
+        <!-- BOUTON REGISTER -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Créer le compte"
+            android:backgroundTint="#B6D8F7"
+            android:textColor="#1A1A1A" />
+
+        <ProgressBar
+            android:id="@+id/progressRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            android:indeterminateTint="#E8DAF0" />
+
+        <TextView
+            android:id="@+id/tvRegisterError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            android:textColor="#B00020" />
+
+        <TextView
+            android:id="@+id/tvBackLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Déjà un compte ? Se connecter"
+            android:layout_marginTop="24dp"
+            android:textColor="#5A3D73" />
+
+    </LinearLayout>
+
+</ScrollView>
