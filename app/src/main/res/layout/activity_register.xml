@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E7F1F9">
+    android:background="#F3E4F5">
 
     <LinearLayout
         android:id="@+id/registerRoot"
@@ -15,81 +15,86 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Créer un compte"
-            android:textSize="26sp"
+            android:textSize="28sp"
+            android:fontFamily="sans-serif-medium"
             android:textStyle="bold"
-            android:textColor="#1A1A1A"
-            android:layout_marginBottom="24dp"/>
+            android:textColor="#2B2B2B"
+            android:layout_marginBottom="28dp"/>
 
-        <!-- LOGIN -->
-
-        <!-- PASSWORD -->
         <EditText
             android:id="@+id/etRegisterLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="14dp"
             android:hint="Login"
+            android:fontFamily="sans-serif-medium"
             android:inputType="textEmailAddress"
-            android:backgroundTint="#B6D8F7"
-            android:textColor="#1A1A1A"
-            android:textColorHint="#6B6B6B" />
+            android:backgroundTint="#E8DAF0"
+            android:textColor="#2B2B2B"
+            android:textColorHint="#6E6E8A" />
 
         <EditText
             android:id="@+id/etRegisterPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Mot de passe"
+            android:fontFamily="sans-serif-medium"
             android:inputType="textPassword"
-            android:layout_marginBottom="12dp"
-            android:backgroundTint="#B6D8F7"
-            android:textColor="#1A1A1A"
-            android:textColorHint="#6B6B6B" />
+            android:layout_marginBottom="14dp"
+            android:backgroundTint="#E8DAF0"
+            android:textColor="#2B2B2B"
+            android:textColorHint="#6E6E8A" />
 
-        <!-- CONFIRM PASSWORD -->
         <EditText
             android:id="@+id/etRegisterConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Confirmer le mot de passe"
+            android:fontFamily="sans-serif-medium"
             android:inputType="textPassword"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="#B6D8F7"
-            android:textColor="#1A1A1A"
-            android:textColorHint="#6B6B6B" />
+            android:layout_marginBottom="18dp"
+            android:backgroundTint="#E8DAF0"
+            android:textColor="#2B2B2B"
+            android:textColorHint="#6E6E8A" />
 
-        <!-- BOUTON REGISTER -->
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Créer le compte"
-            android:backgroundTint="#B6D8F7"
-            android:textColor="#1A1A1A" />
+            android:textAllCaps="false"
+            android:fontFamily="sans-serif-medium"
+            android:backgroundTint="#A7ABDE"
+            android:textColor="#FFFFFF" />
 
         <ProgressBar
             android:id="@+id/progressRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="18dp"
             android:visibility="gone"
-            android:indeterminateTint="#E8DAF0" />
+            android:indeterminateTint="#D8BEE5" />
 
         <TextView
             android:id="@+id/tvRegisterError"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:visibility="gone"
-            android:textColor="#B00020" />
+            android:fontFamily="sans-serif-medium"
+            android:textColor="#7A1C2E"
+            android:background="#FCDCE1"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/tvBackLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Déjà un compte ? Se connecter"
-            android:layout_marginTop="24dp"
-            android:textColor="#5A3D73" />
+            android:layout_marginTop="26dp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="#A7ABDE" />
 
     </LinearLayout>
 

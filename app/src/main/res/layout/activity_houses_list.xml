@@ -2,13 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#F3E4F5">
 
     <TextView
+        android:id="@+id/tvTitleHouses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mes maisons"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#2B2B2B"
+        android:layout_marginBottom="16dp" />
+
+    <ProgressBar
+        android:id="@+id/progressHouses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Houses Screen"
-        android:textSize="24sp"/>
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:indeterminateTint="#D8BEE5"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:id="@+id/tvHousesError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#7A1C2E"
+        android:background="#FCDCE1"
+        android:padding="10dp"
+        android:layout_marginBottom="12dp" />
+
+    <ListView
+        android:id="@+id/listHouses"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="12dp"
+        android:divider="@android:color/transparent" />
 
 </LinearLayout>
