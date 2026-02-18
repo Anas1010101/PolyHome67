@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androidtp2.Api
 
@@ -21,8 +22,19 @@ class DevicesListActivity : AppCompatActivity() {
     private lateinit var tvError: TextView
     private lateinit var progress: ProgressBar
 
+    private lateinit var tvDashTotal: TextView
+    private lateinit var tvDashActive: TextView
+    private lateinit var tvDashPercent: TextView
+    private lateinit var tvDashExtra: TextView
+    private lateinit var pbActive: ProgressBar
+
     private val devicesList = ArrayList<Device>()
     private lateinit var adapter: DevicesAdapter
+
+    private val deviceCommandLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            loadDevices()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,26 +54,22 @@ class DevicesListActivity : AppCompatActivity() {
         tvError = findViewById(R.id.tvDevicesError)
         progress = findViewById(R.id.progressDevices)
 
-        adapter = DevicesAdapter(this, devicesList)
-        listView.adapter = adapter
+        tvDashTotal = findViewById(R.id.tvDashTotal)
+        tvDashActive = findViewById(R.id.tvDashActive)
+        tvDashPercent = findViewById(R.id.tvDashPercent)
+        tvDashExtra = findViewById(R.id.tvDashExtra)
+        pbActive = findViewById(R.id.pbActive)
 
-        // CLICK SUR UN DEVICE → écran commande
-        listView.setOnItemClickListener { _, _, position, _ ->
-            val d = devicesList[position]
-
-            val i = Intent(this, DeviceCommandActivity::class.java)
-            i.putExtra("HouseId", houseId)
-            i.putExtra("Token", token)
-            i.putExtra("DeviceId", d.id)
-            i.putExtra("DeviceType", d.type)
-
-            i.putStringArrayListExtra(
-                "Commands",
-                ArrayList(d.availableCommands)
-            )
-
-            startActivity(i)
+        adapter = DevicesAdapter(this, devicesList) { d ->
+            val intent = Intent(this, DeviceCommandActivity::class.java)
+            intent.putExtra("Token", token)
+            intent.putExtra("HouseId", houseId)
+            intent.putExtra("DeviceId", d.id)
+            intent.putExtra("DeviceType", d.type)
+            intent.putStringArrayListExtra("Commands", ArrayList(d.availableCommands))
+            deviceCommandLauncher.launch(intent)
         }
+        listView.adapter = adapter
 
         loadDevices()
     }
@@ -74,11 +82,7 @@ class DevicesListActivity : AppCompatActivity() {
 
         Thread {
             try {
-                Api().get<DevicesResponse>(
-                    url,
-                    ::onResultDevices,
-                    token
-                )
+                Api().get<DevicesResponse>(url, ::onResultDevices, token)
             } catch (e: Exception) {
                 runOnUiThread {
                     progress.visibility = View.GONE
@@ -101,6 +105,13 @@ class DevicesListActivity : AppCompatActivity() {
                     response?.devices?.let { devicesList.addAll(it) }
                     adapter.notifyDataSetChanged()
 
+                    val stats = DashboardUtils.compute(devicesList)
+                    tvDashTotal.text = "Total : ${stats.total}"
+                    tvDashActive.text = "Actifs : ${stats.active}"
+                    tvDashPercent.text = "${stats.percentActive}%"
+                    pbActive.progress = stats.percentActive
+                    tvDashExtra.text = "Ouverts : ${stats.opened} | Allumés : ${stats.powered}"
+
                     if (devicesList.isEmpty()) {
                         tvError.visibility = View.VISIBLE
                         tvError.text = "Aucun périphérique trouvé."
@@ -108,14 +119,17 @@ class DevicesListActivity : AppCompatActivity() {
                         tvError.visibility = View.GONE
                     }
                 }
+
                 403 -> {
                     tvError.visibility = View.VISIBLE
                     tvError.text = "Accès interdit (token invalide / pas membre de la maison)."
                 }
+
                 404 -> {
                     tvError.visibility = View.VISIBLE
                     tvError.text = "Maison introuvable."
                 }
+
                 else -> {
                     tvError.visibility = View.VISIBLE
                     tvError.text = "Erreur serveur : $code"

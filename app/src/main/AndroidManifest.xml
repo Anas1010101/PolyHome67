@@ -37,6 +37,9 @@
         <activity android:name=".DeviceCommandActivity"
             android:exported="false"/>
 
+        <activity android:name=".ScenariosActivity"
+            android:exported="false"/>
+
 
 
 

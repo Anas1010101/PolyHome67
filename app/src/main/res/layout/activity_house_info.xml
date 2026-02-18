@@ -66,13 +66,12 @@
             android:layout_gravity="center_horizontal"
             android:indeterminateTint="#A7ABDE"/>
 
-        <!-- ✅ NOUVEAU : Retirer accès -->
         <Button
             android:id="@+id/btnRemoveAccess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Retirer accès"
-            android:backgroundTint="#A7ABDE"
+            android:backgroundTint="#D8BEE5"
             android:textColor="#2B2B2B"
             android:layout_marginTop="12dp"/>
 
@@ -101,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Voir les utilisateurs"
-            android:backgroundTint="#D8BEE5"
+            android:backgroundTint="#A7ABDE"
             android:textColor="#2B2B2B"
             android:layout_marginTop="16dp"/>
 
@@ -120,16 +119,26 @@
             android:layout_height="200dp"
             android:layout_marginTop="10dp"
             android:dividerHeight="10dp"
-            android:divider="@android:color/transparent" />
+            android:divider="@android:color/transparent"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btnDevices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Lister les périphériques"
-            android:layout_marginTop="12dp"/>
+            android:backgroundTint="#CBB8F3"
+            android:textColor="#2B2B2B"/>
 
-
+        <Button
+            android:id="@+id/btnScenarios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Scénarios de la maison"
+            android:backgroundTint="#CBB8F3"
+            android:textColor="#2B2B2B"/>
 
     </LinearLayout>
 </ScrollView>

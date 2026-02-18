@@ -1,8 +1,9 @@
 package com.example.polyhome67
 
-import android.os.Bundle
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.example.androidtp2.Api
 class HouseInfo : AppCompatActivity() {
 
     private lateinit var btnDevices: Button
+    private lateinit var btnScenarios: Button
 
     private lateinit var token: String
     private var houseId: Int = -1
@@ -30,6 +32,9 @@ class HouseInfo : AppCompatActivity() {
     private lateinit var listUsers: ListView
     private lateinit var usersAdapter: HouseUsersAdapter
     private val usersList = ArrayList<HouseUser>()
+
+    private var usersVisible = false
+    private var usersLoadedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +67,9 @@ class HouseInfo : AppCompatActivity() {
         usersAdapter = HouseUsersAdapter(this, usersList)
         listUsers.adapter = usersAdapter
 
+        btnDevices = findViewById(R.id.btnDevices)
+        btnScenarios = findViewById(R.id.btnScenarios)
+
         tvHouseTitle.text = "Maison $houseId"
         tvHouseStatus.text = if (isOwner) "Statut : Propriétaire" else "Statut : Invité"
 
@@ -72,21 +80,53 @@ class HouseInfo : AppCompatActivity() {
             tvGiveAccessMsg.text = "Seul le propriétaire peut gérer les accès."
         }
 
+        setUsersVisible(false)
+
         btnGiveAccess.setOnClickListener { giveAccess() }
         btnRemoveAccess.setOnClickListener { removeAccess() }
-        btnLoadUsers.setOnClickListener { loadUsers() }
 
-        btnDevices = findViewById(R.id.btnDevices)
+        btnLoadUsers.setOnClickListener {
+            if (usersVisible) {
+                setUsersVisible(false)
+            } else {
+                setUsersVisible(true)
+                if (!usersLoadedOnce) loadUsers() else usersAdapter.notifyDataSetChanged()
+            }
+        }
 
         btnDevices.setOnClickListener {
             val i = Intent(this, DevicesListActivity::class.java)
             i.putExtra("Token", token)
             i.putExtra("HouseId", houseId)
-            i.putExtra("Owner", isOwner) // optionnel
+            i.putExtra("Owner", isOwner)
             startActivity(i)
         }
 
+        btnScenarios.setOnClickListener {
+            val i = Intent(this, ScenariosActivity::class.java)
+            i.putExtra("Token", token)
+            i.putExtra("HouseId", houseId)
+            i.putExtra("Owner", isOwner)
+            startActivity(i)
+        }
     }
+
+    private fun setUsersVisible(visible: Boolean) {
+        usersVisible = visible
+        listUsers.visibility = if (visible) View.VISIBLE else View.GONE
+        progressUsers.visibility = View.GONE
+        btnLoadUsers.text = if (visible) "Masquer les utilisateurs" else "Voir les utilisateurs"
+
+        val lpDevices = btnDevices.layoutParams as ViewGroup.MarginLayoutParams
+        lpDevices.topMargin = if (visible) dp(12) else 0
+        btnDevices.layoutParams = lpDevices
+
+        val lpScenarios = btnScenarios.layoutParams as ViewGroup.MarginLayoutParams
+        lpScenarios.topMargin = dp(12)
+        btnScenarios.layoutParams = lpScenarios
+    }
+
+    private fun dp(v: Int): Int = (v * resources.displayMetrics.density).toInt()
 
     private fun giveAccess() {
         val login = etUserLoginAccess.text.toString().trim()
@@ -105,12 +145,7 @@ class HouseInfo : AppCompatActivity() {
 
         Thread {
             try {
-                Api().post<DataGiveAccess, Any?>(
-                    url,
-                    body,
-                    ::onResultGiveAccess,
-                    token
-                )
+                Api().post<DataGiveAccess, Any?>(url, body, ::onResultGiveAccess, token)
             } catch (e: Exception) {
                 runOnUiThread {
                     progressGiveAccess.visibility = View.GONE
@@ -129,7 +164,11 @@ class HouseInfo : AppCompatActivity() {
             btnRemoveAccess.isEnabled = isOwner
 
             when (code) {
-                200 -> showMsg("Accès accordé à l’utilisateur.", false)
+                200 -> {
+                    showMsg("Accès accordé à l’utilisateur.", false)
+                    usersLoadedOnce = false
+                    if (usersVisible) loadUsers()
+                }
                 400 -> showMsg("Données incorrectes (login invalide).", true)
                 403 -> showMsg("Accès interdit (token invalide ou pas propriétaire).", true)
                 409 -> showMsg("Cet utilisateur est déjà associé à la maison.", true)
@@ -155,12 +194,7 @@ class HouseInfo : AppCompatActivity() {
 
         Thread {
             try {
-                Api().delete<DataGiveAccess>(
-                    url,
-                    body,
-                    { code -> onResultRemoveAccess(code, null) },
-                    token
-                )
+                Api().delete<DataGiveAccess>(url, body, { code -> onResultRemoveAccess(code, null) }, token)
             } catch (e: Exception) {
                 runOnUiThread {
                     progressRemoveAccess.visibility = View.GONE
@@ -179,7 +213,11 @@ class HouseInfo : AppCompatActivity() {
             btnRemoveAccess.isEnabled = isOwner
 
             when (code) {
-                200 -> showMsg("Accès retiré avec succès.", false)
+                200 -> {
+                    showMsg("Accès retiré avec succès.", false)
+                    usersLoadedOnce = false
+                    if (usersVisible) loadUsers()
+                }
                 400 -> showMsg("Requête invalide.", true)
                 403 -> showMsg("Action interdite (pas propriétaire / token invalide).", true)
                 404 -> showMsg("Utilisateur non associé à cette maison.", true)
@@ -196,11 +234,7 @@ class HouseInfo : AppCompatActivity() {
 
         Thread {
             try {
-                Api().get<Array<HouseUser>>(
-                    url,
-                    ::onResultUsers,
-                    token
-                )
+                Api().get<Array<HouseUser>>(url, ::onResultUsers, token)
             } catch (e: Exception) {
                 runOnUiThread {
                     progressUsers.visibility = View.GONE
@@ -216,13 +250,11 @@ class HouseInfo : AppCompatActivity() {
 
             when (code) {
                 200 -> {
+                    usersLoadedOnce = true
                     usersList.clear()
                     if (response != null) usersList.addAll(response)
                     usersAdapter.notifyDataSetChanged()
-
-                    if (usersList.isEmpty()) {
-                        showMsg("Aucun utilisateur associé.", false)
-                    }
+                    if (usersList.isEmpty()) showMsg("Aucun utilisateur associé.", false)
                 }
                 400 -> showMsg("Données incorrectes.", true)
                 403 -> showMsg("Accès interdit (token invalide ou non membre de la maison).", true)
