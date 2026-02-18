@@ -1,5 +1,6 @@
 package com.example.polyhome67
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ListView
@@ -39,6 +40,16 @@ class HousesList : AppCompatActivity() {
         adapter = HouseAdapter(this, houseList)
         listView.adapter = adapter
 
+        // clic sur une maison -> HouseInfo
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val selected = houseList[position]
+            val intent = Intent(this, HouseInfo::class.java)
+            intent.putExtra("HouseId", selected.houseId)
+            intent.putExtra("Owner", selected.owner)
+            intent.putExtra("Token", token)
+            startActivity(intent)
+        }
+
         showHouses()
     }
 
@@ -70,13 +81,12 @@ class HousesList : AppCompatActivity() {
         progress.visibility = ProgressBar.VISIBLE
         tvError.visibility = TextView.GONE
 
-        // DEBUG TOKEN
-        Log.d("TOKEN_DEBUG", token)
-
-        Api().get<Array<House>>(
-            "https://polyhome.lesmoulinsdudev.com/api/houses",
-            ::onSuccessShowHouses,
-            token
-        )
+        Thread {
+            Api().get<Array<House>>(
+                "https://polyhome.lesmoulinsdudev.com/api/houses",
+                ::onSuccessShowHouses,
+                token
+            )
+        }.start()
     }
 }

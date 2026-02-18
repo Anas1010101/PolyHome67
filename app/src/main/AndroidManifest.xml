@@ -28,6 +28,15 @@
         <activity android:name=".HousesList"
             android:exported="false"/>
 
+        <activity android:name=".HouseInfo"
+            android:exported="false"/>
+
+        <activity android:name=".DevicesListActivity"
+            android:exported="false"/>
+
+        <activity android:name=".DeviceCommandActivity"
+            android:exported="false"/>
+
 
 
 

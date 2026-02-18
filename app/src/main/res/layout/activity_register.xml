@@ -94,7 +94,11 @@
             android:text="Déjà un compte ? Se connecter"
             android:layout_marginTop="26dp"
             android:fontFamily="sans-serif-medium"
-            android:textColor="#A7ABDE" />
+            android:textColor="#A7ABDE"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="6dp" />
+
 
     </LinearLayout>
 
