@@ -66,7 +66,6 @@
             android:layout_gravity="center_horizontal"
             android:indeterminateTint="#A7ABDE"/>
 
-        <!-- ✅ NOUVEAU : Retirer accès -->
         <Button
             android:id="@+id/btnRemoveAccess"
             android:layout_width="match_parent"
@@ -120,14 +119,25 @@
             android:layout_height="200dp"
             android:layout_marginTop="10dp"
             android:dividerHeight="10dp"
-            android:divider="@android:color/transparent" />
+            android:divider="@android:color/transparent"
+            android:visibility="gone"/>
+
 
         <Button
             android:id="@+id/btnDevices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lister les périphériques"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="12dp"
+            android:text="Lister les périphériques" />
+
+        <Button
+            android:id="@+id/btnScenarios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Scénarios de la maison"
+            android:backgroundTint="#A7ABDE"
+            android:textColor="#2B2B2B" />
 
 
 

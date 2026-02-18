@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardPoltergeist"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="14dp"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_device_card"
+    android:clickable="true"
+    android:focusable="false"
+    android:foreground="?attr/selectableItemBackground">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="👻 Mode Poltergeist"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#2B2B2B"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Active volets et lumières en alternance pour un effet paranormal."
+        android:textColor="#6E6E8A"
+        android:layout_marginTop="6dp"/>
+</LinearLayout>

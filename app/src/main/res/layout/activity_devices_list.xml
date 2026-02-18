@@ -34,11 +34,39 @@
         android:padding="10dp"
         android:layout_marginBottom="10dp"/>
 
+    <TextView
+        android:id="@+id/tvDashTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvDashActive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ProgressBar
+        android:id="@+id/pbActive"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"/>
+
+    <TextView
+        android:id="@+id/tvDashPercent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvDashExtra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
     <ListView
         android:id="@+id/listDevices"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="10dp"
-        android:divider="@android:color/transparent" />
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp" />
 
 </LinearLayout>
